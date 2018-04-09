@@ -6,7 +6,7 @@ def read_data():
     while(True):
         all_fine = 1
         print("Choose the type of reading your data:")
-        print('\'1 input\' to read from std input')
+        print('\'1\' to read from std input')
         print('\'2 filename\' to read from file')
         s_input = input().split(' ')
         lines = []
@@ -68,50 +68,51 @@ def read_data():
                             print('incorrect input: unknown type of cell\n')
                             break
                     f.close()
-                        
             elif s_input[0] == '2':
                 with open(filename, 'r') as f:
                     n, m, n_gen = map(int, f.readline().split(' '))
                     for line in f:
                         lines.append(line.replace('\n', ''))
-            # print(lines)
         except IndexError:
             all_fine = 0
             print('incorrect input: lack of arguments\n')
             continue
-
         if all_fine:
             break
-    
     return m, n, n_gen, lines
 
 
-# read_data()
 def write_data(ocean):
-    print("Choose the type of writing your data:")
-    print('\'1 output\' to write to std output')
-    print('\'2 filename\' to write to file')
 
-    s_output = input().split(' ')
-    assert s_output[0] in ('1', '2') and len(s_output) == 2, 'incorrect input'
-    if s_output[0] == '1':
-        assert s_output[1] == 'output', 'incorrect input'
-        # print('current generation = {}'.format(gen))
-        for line in ocean:
-            for cell in line:
-                print(cell, end=' ')
-            print('')
+    while(True):
+        all_fine = 1
 
-    if s_output[0] == '2':
-        with open(s_output[1], 'w+') as f:
-            # f.write('current generation = {}'.format(gen))
-            # f.write('\n')
+        print("Choose the type of writing your data:")
+        print('\'1\' to write to std output')
+        print('\'2 filename\' to write to file')
+
+        s_output = input().split(' ')
+        if s_output[0] == '1':
             for line in ocean:
-                for i, cell in enumerate(line):
-                    f.write(cell)
-                    if i < len(line):
-                        f.write(' ')
-                f.write('\n')
+                for cell in line:
+                    print(cell, end=' ')
+                print('')
+        if s_output[0] == '2':
+            try:
+                filename = s_output[1]
+                with open(filename, 'w+') as f:
+                    for line in ocean:
+                        for i, cell in enumerate(line):
+                            f.write(cell)
+                            if i < len(line):
+                                f.write(' ')
+                        f.write('\n')
+            except IndexError:
+                all_fine = 0
+                print('incorrect input: not enough values\n')
+                continue
+        if all_fine:
+            break3
 
 lines = []
 n, m, n_gen, lines = read_data()
